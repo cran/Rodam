@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title>Demonstration of the functionnalities of the R ODAM package</title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<!-- 
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{Wrapper Functions for ODAM (Open Data for Access and Mining) Web Services} 
+-->
+
+<style>
+body { max-width:1200px; line-height: 18px; }
+</style>
+
+<h2>Demonstration of the functionnalities of the R ODAM package</h2>
+
+<hr/>
+
+<h3>Description</h3>
+
+<ul>
+<li><p>&#39;ODAM&#39; (Open Data for Access and Mining) is a framework that implements a simple way to make research data broadly accessible and fully available for reuse, including by a script language such as R. The main purpose is to make a dataset accessible online with a minimal effort from the data provider, and to allow any scientists or bioinformaticians to be able to explore the dataset and then extract a subpart or the totality of the data according to their needs.</p></li>
+<li><p>The Rodam package has only one class, odamws that provides methods to allow you to retrieve online data using &#39;ODAM&#39; Web Services. This obviously requires that data are implemented according the &#39;ODAM&#39; approach , namely that the data subsets were deposited in the suitable data repository in the form of TSV files associated with  their metadata also described  in TSV files.</p></li>
+<li><p>The R ODAM package offers a set of functions for retrieve data and their metadata of datasets that are implemented help with the &ldquo;Experimental Data Table Management System&rdquo; (EDTMS) called ODAM, which stands for &ldquo;Open Data for Access and Mining&rdquo;.</p></li>
+<li><p>See <a href="https://www.slideshare.net/danieljacob771282/odam-open-data-access-and-mining">https://www.slideshare.net/danieljacob771282/odam-open-data-access-and-mining</a> for further information.</p></li>
+</ul>
+
+<p><br></p>
+
+<h3>Load the R ODAM package</h3>
+
+<pre><code class="r">library(Rodam)
+</code></pre>
+
+<pre><code>## Loading required package: RCurl
+</code></pre>
+
+<pre><code>## Loading required package: bitops
+</code></pre>
+
+<p><br></p>
+
+<h3>Initialize the ODAM object</h3>
+
+<p>Initialize the &#39;ODAM&#39; object with the wanted dataset along with its corresponding URL of webservice</p>
+
+<pre><code class="r">dh &lt;- new(&#39;odamws&#39;, wsURL=&#39;http://www.bordeaux.inra.fr/pmb/getdata/&#39;, dsname=&#39;frim1&#39;)
+</code></pre>
+
+<p><br></p>
+
+<h3>Get the Data Tree</h3>
+
+<pre><code class="r">options(width=256)
+options(warn=-1)
+options(stringsAsFactors=FALSE)
+
+show(dh)
+</code></pre>
+
+<pre><code>##                        levelName SetID Identifier WSEntry                             Description Count
+## 1  plants                            1    PlantID   plant                          Plant features   552
+## 2   °--samples                       2   SampleID  sample                         Sample features  1288
+## 3       ¦--aliquots                  3  AliquotID aliquot                       Aliquots features   530
+## 4       ¦   ¦--cellwall_metabo       4  AliquotID aliquot      Cell wall Compound quantifications    75
+## 5       ¦   ¦--cellwall_metaboFW     5  AliquotID aliquot Cell Wall Compound quantifications (FW)    75
+## 6       ¦   ¦--activome              6  AliquotID aliquot                       Activome Features   266
+## 7       ¦   ¦--plato_hexosesP       10  AliquotID aliquot                       Hexoses Phosphate   266
+## 8       ¦   ¦--lipids_AG            11  AliquotID aliquot                               Lipids AG    57
+## 9       ¦   °--AminoAcid            12  AliquotID aliquot                             Amino Acids    69
+## 10      °--pools                     7     PoolID    pool                Pools of remaining pools   195
+## 11          ¦--qMS_metabo            8     PoolID    pool            MS Components quantification    25
+## 12          °--qNMR_metabo           9     PoolID    pool                Pools of remaining pools    65
+</code></pre>
+
+<p><br></p>
+
+<h3>Get all WebService entries</h3>
+
+<p>Get all WebService entries defined in the data subset &#39;samples&#39;</p>
+
+<pre><code class="r">dh$getWSEntryByName(&quot;samples&quot;)
+</code></pre>
+
+<pre><code>##    Subset Attribute   WSEntry
+## 1  plants   PlantID     plant
+## 2  plants      Rank       row
+## 3  plants  PlantNum  plantnum
+## 4  plants Treatment treatment
+## 5 samples  SampleID    sample
+## 6 samples     Truss     truss
+## 7 samples  DevStage     stage
+## 8 samples  FruitAge       age
+</code></pre>
+
+<h3>NOTE:</h3>
+
+<p>a &#39;WSEntry&#39; is an alias name associated with an attribute that allows user to query the data subset by putting a filter condition (i.e. a selection constraint) on the corresponding attribute. Not all attributes have a WSEntry but only few ones, especially the attributes within the identifier and factor categories. For instance, the WSEntry of the &#39;SampleID&#39; attribute is &#39;sample&#39;. Thus, if you want to select only samples with their ID equal to 365, you have to specify the filter condition as  &#39;sample/365&#39;.
+<br></p>
+
+<h3>Get data from &#39;samples&#39; subset with a constraint</h3>
+
+<pre><code class="r">data &lt;- dh$getDataByName(&#39;samples&#39;,&#39;sample/365&#39;)
+data
+</code></pre>
+
+<pre><code>##   PlantID Rank PlantNum Treatment SampleID Truss DevStage FruitAge HarvestDate HarvestHour FruitPosition FruitDiameter FruitHeight FruitFW
+## 1     E35    E      311   Control      365    T6    FR.02    47DPA       40423         0.5             5         55.46       48.98   83.32
+## 2     A17    A       17   Control      365    T6    FR.02    47DPA       40423         0.5             3         56.59       47.77   82.02
+## 3      A8    A        8   Control      365    T6    FR.02    47DPA       40423         0.5             5         55.11       44.90   71.82
+## 4      D3    D      210   Control      365    T6    FR.02    47DPA       40423         0.5             5         49.28       44.35   58.28
+## 5     H11    H      356   Control      365    T6    FR.02    47DPA       40423         0.5             6         46.68       38.69   49.25
+</code></pre>
+
+<p>But if this WSEntry concept is not clear for you, you can retrieve the full data subset, then performe a local selection as shown below :</p>
+
+<pre><code class="r">data &lt;- dh$getDataByName(&#39;samples&#39;) 
+data[data$SampleID==365, ]
+</code></pre>
+
+<pre><code>##     PlantID Rank PlantNum Treatment SampleID Truss DevStage FruitAge HarvestDate HarvestHour FruitPosition FruitDiameter FruitHeight FruitFW
+## 22       A8    A        8   Control      365    T6    FR.02    47DPA       40423         0.5             5         55.11       44.90   71.82
+## 41      A17    A       17   Control      365    T6    FR.02    47DPA       40423         0.5             3         56.59       47.77   82.02
+## 402      D3    D      210   Control      365    T6    FR.02    47DPA       40423         0.5             5         49.28       44.35   58.28
+## 590     E35    E      311   Control      365    T6    FR.02    47DPA       40423         0.5             5         55.46       48.98   83.32
+## 662     H11    H      356   Control      365    T6    FR.02    47DPA       40423         0.5             6         46.68       38.69   49.25
+</code></pre>
+
+<p><br></p>
+
+<h3>Convert all numeric values of date and time  in a human-readable format</h3>
+
+<pre><code class="r">data$HarvestDate &lt;- dh$dateToStr(data$HarvestDate)
+data$HarvestHour &lt;- dh$timeToStr(data$HarvestHour)
+data[data$SampleID==365, ]
+</code></pre>
+
+<pre><code>##     PlantID Rank PlantNum Treatment SampleID Truss DevStage FruitAge HarvestDate HarvestHour FruitPosition FruitDiameter FruitHeight FruitFW
+## 22       A8    A        8   Control      365    T6    FR.02    47DPA  2010-09-02        12h0             5         55.11       44.90   71.82
+## 41      A17    A       17   Control      365    T6    FR.02    47DPA  2010-09-02        12h0             3         56.59       47.77   82.02
+## 402      D3    D      210   Control      365    T6    FR.02    47DPA  2010-09-02        12h0             5         49.28       44.35   58.28
+## 590     E35    E      311   Control      365    T6    FR.02    47DPA  2010-09-02        12h0             5         55.46       48.98   83.32
+## 662     H11    H      356   Control      365    T6    FR.02    47DPA  2010-09-02        12h0             6         46.68       38.69   49.25
+</code></pre>
+
+<p><br><br></p>
+
+<hr/>
+
+<p><br></p>
+
+<h2>Get &#39;activome&#39; data subset</h2>
+
+<p>Get &#39;activome&#39; data subset along with its metadata</p>
+
+<pre><code class="r">ds &lt;- dh$getSubsetByName(&#39;activome&#39;)
+ds$samples   # Show the identifier defined in the data subset
+</code></pre>
+
+<pre><code>## [1] &quot;AliquotID&quot;
+</code></pre>
+
+<pre><code class="r">ds$facnames  # Show all factors defined in the data subset
+</code></pre>
+
+<pre><code>## [1] &quot;Treatment&quot; &quot;DevStage&quot;  &quot;FruitAge&quot;
+</code></pre>
+
+<pre><code class="r">ds$varnames  # Show all quantitative variables defined in the data subset
+</code></pre>
+
+<pre><code>##  [1] &quot;PGM&quot;           &quot;F16BP_Cyt&quot;     &quot;PyrK&quot;          &quot;CitS&quot;          &quot;PPI&quot;           &quot;AcoS&quot;          &quot;PFK&quot;           &quot;FruS&quot;          &quot;F16BP_Stroma&quot; 
+## [10] &quot;GluS&quot;          &quot;ISODH_NAD&quot;     &quot;EnoS&quot;          &quot;ISODH_NADP&quot;    &quot;PEPC&quot;          &quot;FBPA&quot;          &quot;SucCoALig&quot;     &quot;MALDH&quot;         &quot;AlaS&quot;         
+## [19] &quot;FumS&quot;          &quot;AspS&quot;          &quot;GLUDH_NADP&quot;    &quot;GAPDH_NAD&quot;     &quot;GAPDH_NADP&quot;    &quot;GLUDH_NAD&quot;     &quot;TPI&quot;           &quot;PhoS&quot;          &quot;NI&quot;           
+## [28] &quot;AciS&quot;          &quot;G6PDH&quot;         &quot;UGPS&quot;          &quot;SucS&quot;          &quot;MAL_NAD&quot;       &quot;ShiS&quot;          &quot;MAL_NADP&quot;      &quot;PGI_tot&quot;       &quot;SolStarchS&quot;   
+## [37] &quot;AGPS&quot;          &quot;SucPhosphateS&quot;
+</code></pre>
+
+<pre><code class="r">ds$qualnames # Show all qualitative variables defined in the data subset
+</code></pre>
+
+<pre><code>## [1] &quot;Rank&quot;  &quot;Truss&quot;
+</code></pre>
+
+<pre><code class="r">ds$WSEntry   # Show all WS entries defined in the data subset
+</code></pre>
+
+<pre><code>##      Subset Attribute   WSEntry
+## 1    plants   PlantID     plant
+## 2    plants      Rank       row
+## 3    plants  PlantNum  plantnum
+## 4    plants Treatment treatment
+## 5   samples  SampleID    sample
+## 6   samples     Truss     truss
+## 7   samples  DevStage     stage
+## 8   samples  FruitAge       age
+## 9  aliquots  SampleID    sample
+## 10 aliquots AliquotID   aliquot
+## 11 activome AliquotID   aliquot
+</code></pre>
+
+<p><br></p>
+
+<h2>Boxplot of all variables defined in ds$varnames</h2>
+
+<pre><code class="r">Rank &lt;- simplify2array(lapply(ds$varnames, function(x) { round(mean(log10(ds$data[ , x]), na.rm=T)) }))
+cols &lt;- c(&#39;red&#39;, &#39;orange&#39;, &#39;darkgreen&#39;, &#39;blue&#39;, &#39;purple&#39;)
+boxplot(log10(ds$data[, ds$varnames]), outline=F, horizontal=T, border=cols[Rank], las=2, cex.axis=0.5)
+</code></pre>
+
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfgAAAH4CAMAAACR9g9NAAAA81BMVEUAAAAAADoAAGYAAP8AOmYAOpAAZAAAZpAAZrY6AAA6AGY6OmY6OpA6ZmY6ZpA6ZrY6kLY6kNtmAABmAGZmOpBmZgBmZjpmZmZmZpBmZrZmkJBmtrZmtttmtv+QOgCQOjqQOmaQZgCQZjqQZmaQZpCQkDqQkGaQkJCQkLaQkNuQtpCQtraQttuQtv+Q29uQ2/+gIPC2ZgC2Zjq2Zma2kDq2kGa2kJC2tma2tpC2tra225C2/7a2/9u2///bkDrbkGbbkJDbtmbbtrbb25Db/7bb/9vb////AAD/pQD/tmb/tpD/trb/25D/27b//7b//9v///8hpWBEAAAACXBIWXMAAAsSAAALEgHS3X78AAAUnUlEQVR4nO2dDXvbthVGaXfq7LrbonT5cBZ7cS3HdrrUUZho3WLKateoVaZJ/P+/ZgQpShQ/AQIgAdz3PGllicI17UPQAHQBeCEgidf3CYB+gHiiQDxRIJ4oEE8UiCcKxBMF4okC8USBeKJAPFEgnigQTxSIJwrEEwXiiQLxRIF4okA8USCeKBBPFIgnCsQTBeKJAvFEgXiiQDxRIJ4oEE8UiCcKxBMF4okC8USBeKJAPFEgnigQTxSIJwrEEwXiiQLxRIF4okA8USCeKBBPFIgnCsQTBeKJAvFEgXiiQDxRIJ4oEE8UiCcKxBMF4okC8USBeKLIiPeAyWgUL1EW6AbiiQLxRIF4okA8USCeKBBPFIgnCsQTBeKJAvFEgXiiQDxRqIn/vZK+z6xjyInfe5LRDfEih7WVbQOXOhnxTl0bHOKnnjdMnkVfHfnB7mjy9SzYexNvaOVAvAgc4hcHd+FkPvngDSbB6nTsDS7Yv6P0i8HF2dQb/By9KS3Dl+OhnPQvde1jtXiOwp39KB3Ac6tfnx9N5h+fz6NqfRj4wftH4cOb4+Fk/nAS+FcHJ9f3597BXfQmsdDKQY0XgfNWH9XpuMaz27t/ldT4l6PLwH/iHV4lR3Grt4r2jTv/6V31QY7Q/YDu3AaHWvVABIiv4+t6+j49GSC+jj21BdMQr76sVviFiYq36FKQET8ehgsv6uGxcR0DBnC4gfhQSvzqNurasVG7WbA6XfQ/gMNN+veZ4zFXrBCnpJQlSIiPKvmZHyy8MzauE/Y/gMMNanwoI349mq9Hvz72Du7YYD1u9WKRe4di444fdOc0hAa9QkZ89VgtxQFbSuL3nuRNQ7zYYW1lxeDR1kq8w9eDoPhN433CPoWdbXNxot58r616iBdHUDwbpxl7g2uWcDM+Y0k47HP6i54zcLhyb3IFchEI5NzsI3qrX5//8SZ8+PN8fX40C6YHJ8/uR3OWnBH0OYCDGi9Oi1v9NKrx7FY/HY69w2dB9PSSZeXgVm8VTjTueECrfh864tGP34OMeEmcG7qFeD62cks8Q7y6st3CYa6leHOviZbiWdJNnH3zwLrvsyD9n0Bog4B47sMs6SbOvonFJ0M5Z2kZ0zNwCvCk5GTeW1a8prSZtK7xbDLVwjtLavz9TfjwHDW+VeSeaF3jw3DFsm9i8dN4EpU1GTgFIF70cMTy2PPOSo/YI54DtOqVhbYL9OOVhTaDhgE9d0f0yIsvvpK1DfHqQ2tCUFUr8S5cDhBfeAXiC4enQ/ZvPNyM0kVfT+bRs83cuTQRo98BHN5snM1jo3hXE3OExM9efH59y6bMJeJnr+8mvybP/OtgdSoWWhOo8XyIif/pzQ+3bMrcRvz9iKXisGf+FZs/JxRaExDPh5j4T999umFT5j54LLdyFixPnsfPsim3vKHNAK16wcPVA3a8oc0A/fhWh7WV1Q1R2xmois98WRAN8daJ51amSLzFlwjEQ3yLw8kMCz8If8ksadrjAA7/6M1emWIUgViWIit+M5nu8p8HhQVOUeNNRvpWvz4/8gP/Wa9z57ZAPDdqbvX+s17nzomDVr1bjTtu0I8nKh5APD8Ni5/ZlYJHV7y4n6oSOdfVgU26JCBevgQN8TVZOGkZO6ZQ8cybqlnSeD9S8anpE6qExddk4QRNZY0CNV7scE0WDsQ3BLZbfHUWjlho+5AWbxIyjbuGLBz3xKM7pyI06BWIr8TtQV2q4sV2FM2rFl5R0TwgnuctEJ9jb2t5AzJw+OHJr9l7t3Bpp8Xvtpb/2YgMHH5Q46UO77aWt2n7MQbESx3ebS3v4ACOpHjDodq44wDdOT2hQa9AfAeYOJIL8Tr5On1IP5Tv9Wz2gHiduCl+FoSTn0v2j7diAKcbNrf4r0PzPriTFH9Zsn88Z2gKuFvjL23cP7473BS/PPaGKxv3j++crXiDQOOuA0z7+86AeKJAfN3QbN+nphG3xXOZ27ypxHNtccuvCoiHeKHDi2Tk5vBqs4Ax69vNN2XMGcDhypSpEW9xhk0TbcWzaTPr74+P2OBNspatN5gLhe4C1PhK2otfeC9fBTO2eHGyevW2xnOG7gKIr6St+HjkZuoNJpvBm5mR4rloKd5y3G7ccYHunPhhbWWBbiC+GWcmSmaB+GaKVgumIV5RWX20UKRQvDkXiLT4cfxprCGLGHPAsdRN5Rbi2SC5FwQimoGseLYaztSYRYw5QI1PkBUf9eFfjuahb8YixhxAfILs3LlkNZzBpWWLGAuBxp3S0PaA7pzS0KBXCIqvmwzp/lBtCkXxpS/S2F9yh/3ihS21Fe/W5aBGPFvK+GPake94AIcry2bvsSJK5omLKTc51IhnSxl/zI/goMabjCLx96NriLcKReKD5bd9iRcGjTuG/Y07YdCdYxAUDxgQ3xlf1dH52UB8Z+zkFkVDvG0IGGsvXsdlIb2y5VGyFQ3VNXDS+zTPY7ZQPkxjANXIiWcTqMbe4MK+RYxVQbbGHwZ+8P5R+HBnSwaOYoiKZ6vf+IF/5eQixqpB444o6M4BA4B4C3jHDX9MiLeAd4UXKhSXv1oKxHfCO7Wl24jPHZMXP/bYoqbe0YMtH8v2wTu1pY0QH/Xh44Gch55Sr6wg/QPc7vFdSbhW3yaDGvFsIAc1voZ3aksbVOPjB/GygId3hRfQuCMBunNAGW6LR25dJY6Lzz11b8PI1lgnXkiWKvEOXiHc4uNVi6PWO1vC8sNu1WI2eWo+Hsa5OGKhWwLxauAW7yf7TcXiJ7tVi9nkqV9v/Xg922BTRusAjtBUuSbxInPuHENA/MI7y4jfrFrMJk9FN4CzjHjO0C1BjVcDt/jNqsUHb47ZzuHbVYtnwfLkebwOjokZOGjcVSLTuFseR1W9deguQHeuEuta9UANEC+IK2tfQbwge3JzriFeumz3tFqbso14Q64OHvHx2E24GaWZlg/edDaAowuILx6OO+ireJRmb8up7ODNdXQoLWNlBg73ata5QoUYlixgzSc+3is82S98Vj54w3ajEgttGKjxxcNs7OZHtlpxbsup7ODNLK/dNvG8UG/cNQzecIS2FHTnZEODXoF4VVi2rDnEq6Luj7+Bf/0hvhYBYRLi+7gseMXzDOKIhbYCiOcZxOkkA6dbuId1ikM5+3GMG9PhF988iNNJBk63oMbzDOKIhXYNQo078zNwugTdORVlgW7MFf9bE3LhqWOw+LLXMrohXoruxIuKkhOPy6IBLvEc06eaB3Ag3ii4xHNMn2rOwEn/LnM/lpzOvvimCKAGTvGN06eaM3BQ442CSzzH9KnmDByINwpzM3DQndOKud05oBWI10LtEuW9LVWeBeK1kJFaaRjirUBMkxLxWq8MSfHj9LPYqesfy0J8FpaSM/aOxnu7ULmUgbNDZJ+xr/jE84TThpx4lpKzPB5O5u7vQoUan2HNUnIuohr/0v0MHIgvwX9a2G2Qu6yboDsHDAXiMzQtkuXSYlkQn6HMaIlniNdXVob2XpSJt+DSkBE/9Xadd4MGcCCeBxnx7DP4yXxy4UXSF+YM4Agtc7z/WB6t/CXLFz2Wq/GDeST+8n70+SY0ZwAHNZ4H2RofyY/F41av5hQ6w8HGXXvQneM9rK0s0A3Ey2HLHMkCEC9HRnHGN8TbTqNBYfGmXBPS4sfDZDqVOa16lUB8FSwHZ3LhbAZO89o3e+/NFqspZQKy4lkOzuTDwUlgzgCOSlDjK4hzcK4vvMMr3OpJiddV1hrQnVNbFugG4vuHK0FPdZ4exPdPqc1yyRBvA7yWJMW3uxjaip8O2b/xkH02m1nTWCC0+zgpfvbi8+vbZFHjMLOmcVzGoQEcKbhnXVUUFggpTmvxP7354XbqpUvjpMviCIR2Hzdr/KfvPt2M4gVwDp7ulsURCO0+ToqXDw1S0KonCvrxZkAi5Q7ii2TEllqGeLnQXSHsSVK8JdeFqPhdps1i03NPBnF+meffCfFGIyqeTZWazCcfvMF1pHrsDdJVjJ9sF7M1bABHfCbVXtmSgNZPn2II3+rX50eT+cfnc7ak9fomfHiaDOK8fxTml7M1RbxEAdT4LexWP/UGUY3/zzHLu/lDsorxwcnVi28gvtX36wdljbvxdqxevKxZoFXffFhb2T5BP775sLaytmP+FnQQr4Wd3YJpiLcTPm+txHd6SUC8IBCfLH6UdO+8o9061qYN4CimeVIVe6wTb8bsKtmlUGbB+zu2pTzLwhILbSmo8cniR1Pvb6dsS/lpcW8iiI+/clD8bLeVfDyHzpEBHBWgVU8U9OOtpU6dSQLbAvEVFLzmVUO8jrLKEdbUTrw9VwPE8xaA+C2bfePP2OPC8ClUfOMu5YvbbCMUI5q6wk0zct251WkyiLM6zU+jaQ7dLajxOeRqfDJwwx4L43YQbzYKBnDYFGm2rfihmalXLUGrXldow0E/Xldo0CvOim/MnHMof64NFokXk1Sxk4xATLcvCohX9P1sg0/8Q5xps/CS/lu60tGULVw9HqYDOelatroGcMTmQnGKt38uVEt4xSdz5sLl28xKR7PXd5N06tx1sDoVCy0MarxKeMWzOXN+EC7OMisdze5H1x+SqXPRtZDvxkO80Yjc6pfHca7VdqWjWbA8SabOxS8JhtaMvHi3adu4iy6CQpKdWGjNoDtXj0WteqASiK/C8ZsEVfEC24TmXP9e8bVlQHzjOyC+yG4aRWb7MSMzcPJwjAJl3lpX0lLkxLNO3Ngb7G8/xlm2X1DjpQ6zGu8H7x9FHX3Lth+DeKnDbITeD/wrthqSa9uP8Yi3GKqNu2bQndMUGvQKxG9wvIIXoCa+0uPuwL5sHvE2XhwQXzgA8fuHm7Nw0jImD+BUD9hk38JVwO5xHBHxTVk4NkyoQI3fICK+KQsH4i1C9FZfl4UjFtowZMTbiEzjriELxzLx6M4JHNZWFuiGgPjKusxF32evC6PE6/ktV0fl8CpySlZdJBDftrDce3tHUnw8nhMP5KjIwOEdLBF7lBMv+C2tQVJ83HefXM8nSjJwUOO7Q1r8wjtj4ucqMnAgvjskxa8eewd3bPtBgwdwOhNvFUY17vSA7lwZBMSDMkiJR03fQUt8+ask50/bJV5Sh3LxFl8ePOLZblPrv99N2SbCmz2ntnuSlJXRl4EjOpySexQSzxvbUnjEM7//m/z4/fFRuudUmGwkPz4bs+lTF5HkYSebCqPGK4OvxkdOv/z4KphdbfacYq+uz6PrwL+/CR9O7kefb6YHJ/ozcCBeGbw1PvxyN02GaTb393inwaEfRK9eMvFjCxYxRuNuR6vGHccCOM2hewDduR12teqBMuiJF6n2Dt8ACIrPPeWSCvHqQrdD3oA28XZdHJLi2djO5otu1sDhHVapeSwEVPht7UFSfLwIzkBVBg4HqPGKkK7xg7kfTBRl4HAA8YpQUOPjQRyDM3ByoHEXY1vjTh5052LoiQcxtMRTqtINEBOf+dLJ1ev4cU18vUBx8c5eELLikx2oDu5mwTjtzvW6Bk79CEu9ePtHZQSQFb/dSvxJ4XNa1HiTka/xbBGswXz6cpTfQR7iTUa+xqf/Lb/Vn3MnCxp3W1xr3NWD7twWWuLBFuLiMWTb7rC2sl1REFrhGOLVhVZJay8axRt+rUiKH6efxU57/VgW4oWRE7+6jT+M39+FqoeRu/rxurrHkkhV36BFfIOREx/V85ej+fqm712oUOOFkRK/HsXLFw/MXgOnDjTu2h3WVrYr0J1rd1hbWaAbiOfmaw76Pkd+IJ6brNUKxxAvW1Yv7fxIiTfukpAXn+TgeEcP+ak0EC/9LTUiLz7JwVmdbsUbvf1YTPrnWOyRR3xtGKNQUeNZDs5hgBpPrsYn/1kkvh1o3KkJbR3ozqkJDXrFQfG/NdLTiRmFi+JzTwuiIT60UXyjNlnxNK4LafELzxv8axJ0l4ED8UqQFs/2HvOfnC06y8BJ/0pXPxben4/QHMR9pMWzDcjYnuKdZeCgxitBWvzy2Dt8djXsN9lyDzTueLCvcdcIunM8OCge8ADxBWgk4EF8gazXUssQr6+scgRkaRBv4KUiKX6zJRX7YHbc44SKZiA+h6R4lnoz+Ty6GEx2a+AYmYEjMvlpv1hpLMGI7olnqTdf3rz1A1PWwKkCNT6HdI0Pw/WrwA/sWAOHCzTumg/HTPN/3AXKmgi6c82HtZUFurFUPEZjZbFVfObLrG2I58VI8c36WorHdbFFTHzphuIsB2e+2YFWIHQNEK8fMfGlG4qzHBw2iJOO4MgP4DQn2dSIR3INF6I1vmRDcZaD8+XNW9R4qxCv8YUNxVkOzv2rYKouAwfi9SPZuEs3FC8bxEF3zmSMbNUD/UC8NHZOpoR4aXJWyzRDvGVwCZMU39NFISeeDeEsPLYkxjBU2Ko3BoivgA3hsG58OHvx+fVtWsbEDJx2cC2OwyO+IU4PyNb4w8APFt7Z7Kc3P9zmDrogvsWbiNT4MFw9ZvsNfvruE8QnTymI11bWJtCdU1gW6AbiiQLxRIF4okA8USCeKBBPFIgnCsQTBeKJAvFEgXiiQDxRIJ4oOsUDk9EnnufaMCACTkJ/NA3hXfmdG3ES2qJpCO/K79yIk9AWTUN4V37nRpyEtmgawrvyOzfiJLRF0xDeld+5ESehLZqG8K78zo04CW3RgDVAPFEgnigQTxSIJwrEE0Wr+NXjZE3MXlkeHwaFJfrEWD3+07H0zyF5DuHy7VjlL1Or+C93YfhfuZ+XLbcm9+N+uVv9dSJ3El/uZoHczyH/Y4TLf9zI/jKzaBW/Pk+3MuqR9atg+Y3cL2w9mi//InkasucQhuPDf8ueRAb8jScKxBMF4okC8USBeKJAPFEgnigQTxSIJwrEEwXiiQLxRIF4okA8USCeKBBPFIgnCsQTBeKJAvFEgXiiQDxRIJ4oEE8UiCcKxBMF4okC8USBeKJAPFEgnigQTxSIJwrEEwXiiQLxRIF4okA8USCeKBBPFIgnCsQTBeKJAvFEgXiiQDxRIJ4oEE8UiCcKxBMF4okC8USBeKJAPFEgnigQTxSIJ8r/AblqBOEifUeCAAAAAElFTkSuQmCC" title="plot of chunk plot1" alt="plot of chunk plot1" style="display: block; margin: auto;" />
+<br><br></p>
+
+<hr/>
+
+<p><br></p>
+
+<h2>Find how many IDs in common  there are between the subsets</h2>
+
+<p>Based on the subset network, the common ID to be considered is  the &ldquo;SampleID&rdquo; identifier</p>
+
+<pre><code class="r"> refID &lt;- &quot;SampleID&quot;
+ subsetList &lt;- c( &quot;samples&quot;, &quot;activome&quot;, &quot;qNMR_metabo&quot;, &quot;cellwall_metabo&quot; )
+ n &lt;- length(subsetList)
+ Mintersubsets &lt;- matrix(data=0, nrow=n, ncol=n)
+ for (i in 1:(n-1))
+     for (j in (i+1):n)
+          Mintersubsets[i,j] &lt;- length(dh$getCommonID(refID,subsetList[i],subsetList[j]))
+
+ rownames(Mintersubsets) &lt;- subsetList
+ colnames(Mintersubsets) &lt;- subsetList
+ Mintersubsets[ -n, -1 ]
+</code></pre>
+
+<pre><code>##             activome qNMR_metabo cellwall_metabo
+## samples          254         191              70
+## activome           0         191              70
+## qNMR_metabo        0           0              24
+</code></pre>
+
+<p><br><br></p>
+
+<hr/>
+
+<p><br></p>
+
+<h2>R Session Information</h2>
+
+<pre><code class="r">options(width=128)
+sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.3.1 (2016-06-21)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 7 x64 (build 7601) Service Pack 1
+## 
+## locale:
+## [1] LC_COLLATE=C                   LC_CTYPE=French_France.1252    LC_MONETARY=French_France.1252 LC_NUMERIC=C                  
+## [5] LC_TIME=French_France.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] Rodam_0.1.2    RCurl_1.95-4.8 bitops_1.0-6  
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.7      visNetwork_1.0.1 digest_0.6.10    R6_2.1.3         plyr_1.8.4       jsonlite_1.0     formatR_1.4     
+##  [8] magrittr_1.5     evaluate_0.9     scales_0.4.0     stringi_1.1.1    rstudioapi_0.6   DiagrammeR_0.8.4 data.tree_0.4.0 
+## [15] tools_3.3.1      stringr_1.1.0    htmlwidgets_0.7  igraph_1.0.1     munsell_0.4.3    influenceR_0.1.0 colorspace_1.2-6
+## [22] htmltools_0.3.5  knitr_1.14
+</code></pre>
+
+</body>
+
+</html>
