@@ -2,8 +2,8 @@
 % Please edit documentation in R/odamws.R
 \docType{class}
 \name{odamws-class}
-\alias{odamws}
 \alias{odamws-class}
+\alias{odamws}
 \title{API layer for the ODAM web services}
 \description{
 the class that implements the API layer for the ODAM (Open Data for Access and Mining) web services.
@@ -25,6 +25,7 @@ Provides functions to allow you to retrieve online data using ODAM Web Services.
 
 \item{\code{connectList}}{a matrix of the connection graph between data subsets (i.e. the links between each subset with the subset at its origin, so that links can be interpreted as 'obtained from'). The data subsets are referred by their subset number. (corresponding to the 'SetID' column in the 'subsets' field)  - Initialized during the instantiation step.}
 }}
+
 \section{Methods}{
 
 \describe{
@@ -50,9 +51,10 @@ Provides functions to allow you to retrieve online data using ODAM Web Services.
 
 \item{\code{getWS(query = "")}}{Low level routine allowing to retrieve data or metadata from  a query formatted according the ODAM framework specifications - Returns a data.frame object. By default, i.e. with an empty query, a data.frame object containing metadata related to the data subsets is returned.}
 }}
+
 \examples{
 \dontrun{
-dh <- new("odamws", "http://www.bordeaux.inra.fr/pmb/getdata/", "frim1")
+dh <- new("odamws", "https://pmb-bordeaux.fr/pmb/getdata/", "frim1")
 dn <- show(dh)
 # Get data from 'samples' subset with a constraint
 data <- dh$getDataByName('samples','sample/365')
@@ -68,4 +70,3 @@ dsMerged <- dh$getMerged(refID, setName1, setName2)
 \author{
 Daniel Jacob - INRA UMR 1332 BFP (C) 2016
 }
-

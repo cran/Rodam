@@ -36,7 +36,7 @@ library(Rodam)
 Initialize the 'ODAM' object with the wanted dataset along with its corresponding URL of webservice
 
 ```{r init-object, echo=TRUE}
-dh <- new('odamws', wsURL='http://www.bordeaux.inra.fr/pmb/getdata/', dsname='frim1')
+dh <- new('odamws', wsURL='https://pmb-bordeaux.fr/getdata/', dsname='frim1')
 ```
 <br>
 

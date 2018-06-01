@@ -22,7 +22,7 @@ Maintainer: Daniel Jacob
   \href{https://hub.docker.com/r/odam/getdata/}{https://hub.docker.com/r/odam/getdata/}
 \item  Presentation of the ODAM framework 
   \href{http://fr.slideshare.net/danieljacob771282/odam-open-data-access-and-mining}{http://fr.slideshare.net/danieljacob771282/odam-open-data-access-and-mining}
-\item  FIRM's data subsets of CSV files consistent with the ODAM framework
+\item  FIRM's data subsets of TSV files consistent with the ODAM framework
   \href{https://doi.org/10.5281/zenodo.154041}{https://doi.org/10.5281/zenodo.154041}
 \item  Data Explorer online
   \href{http://www.bordeaux.inra.fr/pmb/dataexplorer/}{http://www.bordeaux.inra.fr/pmb/dataexplorer/} 

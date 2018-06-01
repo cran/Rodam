@@ -2,7 +2,7 @@
 library(Rodam)
 
 ## ----init-object, echo=TRUE----------------------------------------------
-dh <- new('odamws', wsURL='http://www.bordeaux.inra.fr/pmb/getdata/', dsname='frim1')
+dh <- new('odamws', wsURL='https://pmb-bordeaux.fr/getdata/', dsname='frim1')
 
 ## ----getdatatree, echo=TRUE-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 options(width=256)

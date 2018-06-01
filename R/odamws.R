@@ -16,7 +16,7 @@ require(RCurl)
 #' @field connectList a matrix of the connection graph between data subsets (i.e. the links between each subset with the subset at its origin, so that links can be interpreted as 'obtained from'). The data subsets are referred by their subset number. (corresponding to the 'SetID' column in the 'subsets' field)  - Initialized during the instantiation step.
 #' @examples
 #'\dontrun{
-#' dh <- new("odamws", "http://www.bordeaux.inra.fr/pmb/getdata/", "frim1")
+#' dh <- new("odamws", "https://pmb-bordeaux.fr/pmb/getdata/", "frim1")
 #' dn <- show(dh)
 #' # Get data from 'samples' subset with a constraint
 #' data <- dh$getDataByName('samples','sample/365')
@@ -115,7 +115,7 @@ odamws <- setRefClass("odamws",
       "Low level routine allowing to retrieve data or metadata from  a query formatted according the ODAM framework specifications - Returns a data.frame object. By default, i.e. with an empty query, a data.frame object containing metadata related to the data subsets is returned."
 
          myurl <- paste(wsURL,'/tsv/', dsname, '/', query,"?auth=",auth,sep="");
-         read.csv(textConnection(RCurl::getURL(myurl)), head=TRUE, sep="\t");
+         read.csv(textConnection(RCurl::getURL(myurl, ssl.verifypeer = FALSE)), head=TRUE, sep="\t");
       },
 
       getWSEntryByName = function(setName) {
