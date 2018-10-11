@@ -16,17 +16,15 @@ require(RCurl)
 #' @field connectList a matrix of the connection graph between data subsets (i.e. the links between each subset with the subset at its origin, so that links can be interpreted as 'obtained from'). The data subsets are referred by their subset number. (corresponding to the 'SetID' column in the 'subsets' field)  - Initialized during the instantiation step.
 #' @examples
 #'\dontrun{
-#' dh <- new("odamws", "https://pmb-bordeaux.fr/pmb/getdata/", "frim1")
+#' dh <- new("odamws", "https://pmb-bordeaux.fr/getdata/", "frim1")
 #' dn <- show(dh)
 #' # Get data from 'samples' subset with a constraint
 #' data <- dh$getDataByName('samples','sample/365')
-#'  # Get 'activome' data subset
+#' # Get 'activome' data subset
 #' ds <- dh$getSubsetByName('activome')
 #' # Get the merged data of both data subsets based on their common identifier
-#' refID <- "SampleID"
-#' setName1 <- "activome"
-#' setName2 <- "qNMR_metabo"
-#' dsMerged <- dh$getMerged(refID, setName1, setName2)
+#' setNameList <- c("activome", "qNMR_metabo" )
+#' dsMerged <- dh$getSubsetByName(setNameList)
 #'}
 #' @import RCurl
 #' @importFrom methods setRefClass
@@ -47,6 +45,8 @@ odamws <- setRefClass("odamws",
       # Initialize the attributes
       initialize = function(wsURL, dsname, auth=1)
       {
+         options(stringsAsFactors=FALSE)
+         options(warn=-1)
          wsURL <<- wsURL
          dsname <<- dsname
          auth <<- auth
@@ -138,66 +138,99 @@ odamws <- setRefClass("odamws",
          getDataSetByName(subsetNames[setID],condition)
       },
 
-      getSubsetByName = function(setName,condition='') {
-      "Returns both data and metadate of the 'setName' subset as an  object list:
+      getSubsetByName = function(setNameList,condition='') {
+      "Returns both data and metadatas of the subsets defined by 'setNameList' as a list of objects. 'setNameList' can contain one or more subset names. If 'setNameList' contains two or more subset names, the returned data set will correspond to the merged data subsets based on the identifiers of the first common data subset :
 
-		data - a data.frame object containing the data. The column names of this data.frame are gathered according their categories and avaivalble in embedded lists, and described below.
+        data - a data.frame object containing the data. The column names of this data.frame are gathered according their categories and avaivalble in embedded lists, and described below.
 
-		varnames, facnames, qualnames,  - Return lists containing  the 'quantitative' variables, the 'factor' variables,  the 'qualitative ' variables  respectively.
+        varnames, facnames, qualnames,  - Return lists containing  the 'quantitative' variables, the 'factor' variables,  the 'qualitative ' variables  respectively.
 
-		samplename - a data.frame containing the metadata about the data subset, namely its name (Subset), its identifier (Attribute), its description (Description), its type (Type), and its CVTerm (CV_Term_ID, CV_Term_Name)
+        varsBySubset - a list containing the 'quantitative' variables by subset.
 
-		LABELS - a data.frame containing the metadata about all attributes - its format is the same as the 'samplename' data.frame.
+        samplename - a data.frame containing the metadata about the common identifier, namely the subset name it belongings (Subset), the identifier name (Attribute), the description (Description), the type (Type), and the CVTerm (CV_Term_ID, CV_Term_Name).
 
-		WSEntry - a data.frame containing the correspondance between some attributes and their alias name, these latter serving within a query to put a constraint a or selection on this attribute. Note: a 'WSEntry' is an alias name associated with an attribute that allows user to query the data subset by putting a filter condition (i.e. a selection constraint) on the corresponding attribute. Not all attributes have a WSEntry but only few ones, especially the attributes within the identifier and factor categories. For instance, the WSEntry of the 'SampleID' attribute is 'sample'. Thus, if you want to select only samples with their ID equal to 365, you have to specify the filter condition as  'sample/365'."
+        samples - the identifier name (Attribute) of the first common data subset.
 
-         setID <- which(subsetNames==setName)
+        LABELS - a data.frame containing the metadata about all attributes - its format is the same as the 'samplename' data.frame.
+
+        WSEntry - a data.frame containing the correspondance between some attributes and their alias name, these latter serving within a query to put a constraint a or selection on this attribute. Note: a 'WSEntry' is an alias name associated with an attribute that allows user to query the data subset by putting a filter condition (i.e. a selection constraint) on the corresponding attribute. Not all attributes have a WSEntry but only few ones, especially the attributes within the identifier and factor categories. For instance, the WSEntry of the 'SampleID' attribute is 'sample'. Thus, if you want to select only samples with their ID equal to 365, you have to specify the filter condition as  'sample/365'."
+
+         # Get SetIDs
+         setIDList <- subsets[ subsets$Subset %in% setNameList, ]$SetID
+         strNameList <- paste(setNameList, collapse=',')
+         
          # Get DATA
          slash <- ifelse ( nchar(condition)==0 || substr(condition,1,1)=='/', '', '/' )
-         data <- getWS(paste('(',setName,')',slash, condition,sep=''))
-
-         # Get Samples: attribute features, list of identifiers
-         I <- getWS(paste('(',setName,')/identifier',sep=''))
-         samplename <- I[I$Subset == setName, ]
-         samples <- CHAR(samplename$Attribute)
-
+         data <- getWS(paste('(',strNameList,')',slash, condition,sep=''))
+         
          # Get quantitative variable features
-         Q <- getWS(paste('(',setName,')/quantitative',sep=''))
-         varnames <- Q[Q$Subset == setName, ]
-
+         varnames <- NULL
+         Q <- getWS(paste('(',strNameList,')/quantitative',sep=''))
+         for( i in 1:length(setNameList) ) varnames <- rbind(varnames,  Q[Q$Subset == setNameList[i], ])
+         
          # Get qualitative variable features
-         Q <- getWS(paste('(',setName,')/qualitative',sep=''))
-         qualnames <- Q
-
+         qualnames <- NULL
+         Q <- getWS(paste('(',strNameList,')/qualitative',sep=''))
+         for( i in 1:length(setNameList) ) qualnames <- rbind(qualnames,  Q[Q$Subset == setNameList[i], ])
+         
          # Get factor features
-         facnames <- getWS(paste('(',setName,')/factor',sep=''))
-
+         facnames <- getWS(paste('(',strNameList,')/factor',sep=''))
+         
+         # Get WSEntries 
+         entries <- getWS(paste('(',strNameList,')/entry',sep=''))
+         
+         I <- NULL
+         for( i in 1:length(setNameList) ) {
+            I <- rbind( I, getWS(paste('(',setNameList[i],')/identifier',sep='')) )
+         }
+         
+         # Get Samples: attribute features, list of identifiers
+         L <- NULL
+         for( i in 1:length(setNameList) ) {
+             l <- c( subsets[ subsets$Subset==setNameList[i], ]$LinkID )
+             while( l[length(l)]>0 ) l <- c(l, subsets[ subsets$SetID==l[length(l)], ]$LinkID )
+             if (i==1) { 
+                L <- l
+             } else {
+                L <- L[ which( (L-l)==0 ) ]
+             }
+         }
+         samples <- CHAR(subsets[ subsets$SetID==L[1], ]$Identifier)
+         
+         setName <- subsets[ subsets$SetID==L[1], ]$Subset
+         Q <- getWS(paste('(',setName,')/identifier',sep=''))
+         samplename <- Q[Q$Subset == setName, ]
+         
          # Get all qualitative features
          features <- rbind(I, facnames, qualnames)
-
-         # Get WSEntries 
-         entries <- getWS(paste('(',setName,')/entry',sep=''))
-
+         CHAR(unique(features$Attribute))
+         
          # Merge all labels
          LABELS <- rbind( 
-            matrix( c( as.matrix(samplename)[,c(2:3)], 'Identifier', as.matrix(samplename)[,c(5:6)]), ncol=5, byrow=FALSE  ),
-            matrix( c( as.matrix(facnames)[,c(2:3)], replicate(dim(facnames)[1],'Factor'  ), as.matrix(facnames)[,c(5:6)] ), ncol=5, byrow=FALSE  ),
-            matrix( c( as.matrix(varnames)[,c(2:3)], replicate(dim(varnames)[1],'Variable'), as.matrix(varnames)[,c(5:6)] ), ncol=5, byrow=FALSE  )
+            matrix( c( as.matrix(samplename)[,c(1:3)], 'Identifier', as.matrix(samplename)[,c(5:6)]), ncol=6, byrow=FALSE  ),
+            matrix( c( as.matrix(facnames)[,c(1:3)], replicate(dim(facnames)[1],'Factor'  ), as.matrix(facnames)[,c(5:6)] ), ncol=6, byrow=FALSE  ),
+            matrix( c( as.matrix(varnames)[,c(1:3)], replicate(dim(varnames)[1],'Variable'), as.matrix(varnames)[,c(5:6)] ), ncol=6, byrow=FALSE  )
          )
          if (dim(as.matrix(qualnames))[1]>0 ) { LABELS <- rbind ( LABELS, 
-            matrix( c( as.matrix(qualnames)[,c(2:3)], replicate(dim(qualnames)[1],'Feature'), as.matrix(qualnames)[,c(5:6)] ), ncol=5, byrow=FALSE )
+            matrix( c( as.matrix(qualnames)[,c(1:3)], replicate(dim(qualnames)[1],'Feature'), as.matrix(qualnames)[,c(5:6)] ), ncol=6, byrow=FALSE )
          )}
-         colnames(LABELS) <- c( 'Attribute', 'Description', 'Type', 'CV_Term_ID ', 'CV_Term_Name' )
-         LABELS[,4] <- sapply(CHAR(LABELS[,4]), function(x) { ifelse( ! is.na(x), x, "NA" ); })
+         colnames(LABELS) <- c( 'Subset', 'Attribute', 'Description', 'Type', 'CV_Term_ID ', 'CV_Term_Name' )
          LABELS[,5] <- sapply(CHAR(LABELS[,5]), function(x) { ifelse( ! is.na(x), x, "NA" ); })
-
+         LABELS[,6] <- sapply(CHAR(LABELS[,6]), function(x) { ifelse( ! is.na(x), x, "NA" ); })
+         LABELS <- as.data.frame(LABELS)
+         
+         varsBySubset <- list()
+         for(setName in setNameList)
+              varsBySubset[[setName]] <- CHAR(varnames$Attribute[ varnames$Attribute %in% LABELS[ LABELS$Subset==setName, ]$Attribute ])
+         
          for( i in 1:dim(varnames)[1]) { if (CHAR(varnames$Type[i]) == 'numeric') data[,CHAR(varnames$Attribute[i])] <- NUM(data[,CHAR(varnames$Attribute[i])]); }
          for( i in 1:dim(samplename)[1]) { if (CHAR(samplename$Type[i]) == 'numeric') data[,CHAR(samplename$Attribute[i])] <- NUM(data[,CHAR(samplename$Attribute[i])]); }
-
-         list( setID=setID, setName=setName, data=data, 
-               samplename=samplename, samples=samples, varnames=CHAR(varnames$Attribute), facnames=CHAR(facnames$Attribute), 
-                                                       qualnames=CHAR(qualnames$Attribute), features=CHAR(features$Attribute), 
-                                                       WSEntry = entries, LABELS=as.data.frame(LABELS) )
+         
+         list( setID=setIDList, setName=setNameList, data=data, 
+               samplename=samplename, samples=samples, varsBySubset=varsBySubset,
+               varnames=CHAR(varnames$Attribute), facnames=CHAR(facnames$Attribute), 
+               qualnames=CHAR(qualnames$Attribute), features=CHAR(unique(features$Attribute)), 
+               WSEntry = entries, LABELS=LABELS )
       },
 
       getCommonID = function(refID, setName1, setName2)
@@ -210,15 +243,15 @@ odamws <- setRefClass("odamws",
 
       getMerged = function(refID, setName1, setName2)
       {
-      "Returns a data.frame containing data obtained by merging two subsets (defined by the attribute label of the setName1 and setName2 subsets) that have the same identifiers in common (defined by refID as an identifier attribute label)  i.e. resulting in the intersection of the two identifier sets."
+      "[DEPRECATED] Returns a data.frame containing data obtained by merging two subsets (defined by the attribute label of the setName1 and setName2 subsets) that have the same identifiers in common (defined by refID as an identifier attribute label)  i.e. resulting in the intersection of the two identifier sets."
          ds1 <- getSubsetByName(setName1)
          ds2 <- getSubsetByName(setName2)
          CommonID <- unique(ds1$data[ ds1$data[, refID ] %in% ds2$data[, refID ], refID ])
-         subds1 <- unique(ds1$data[ ds1$data[, refID] %in% CommonID, c(refID, ds2$facnames, ds1$varnames) ])
+         subds1 <- unique( ds1$data[ ds1$data[, refID] %in% CommonID, c(refID, ds1$facnames, ds1$varnames) ])
          subds1 <- subds1[ order(subds1[ ,refID ]), ]
-         subds2 <- unique(ds2$data[ ds2$data[, refID] %in% CommonID, c(refID, ds2$varnames) ])
+         subds2 <- unique(ds2$data[ ds2$data[, refID] %in% CommonID, c(refID, ds2$facnames, ds2$varnames) ])
          subds2 <- subds2[ order(subds2[ ,refID ]), ]
-         cbind( subds1, subds2[ , -1 ] )
+         cbind( subds1, subds2[ , ! colnames(subds2) %in% colnames(subds1) ] )
       }
    )
 )
