@@ -162,7 +162,7 @@ Based on the subset network, the common ID to be considered is  the "SampleID" i
 
 <br>
 
-### Get the merged data of two data subsets based on their common identifier
+### Get the merged data of two data subsets based on their common identifiers
 
 ```{r getdata7, echo=TRUE}
 setNameList <- c("activome", "qNMR_metabo" )

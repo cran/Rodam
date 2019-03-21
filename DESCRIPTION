@@ -1,8 +1,8 @@
 Package: Rodam
 Title: Wrapper Functions for 'ODAM' (Open Data for Access and Mining)
         Web Services
-Version: 0.1.4
-Date: 2018-10-11
+Version: 0.1.6
+Date: 2019-03-21
 Authors@R: c(
     person("Daniel", "Jacob", email="daniel.jacob@inra.fr", role=c("cre", "aut"), comment=c(ORCID="0000-0002-6687-7169")))
 Copyright: Institut National de la Recherche Agronomique (INRA)
@@ -14,9 +14,9 @@ License: LGPL (>= 3)
 Encoding: UTF-8
 Suggests: data.tree, knitr, rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 NeedsCompilation: no
-Packaged: 2018-10-11 14:41:29 UTC; djaco
+Packaged: 2019-03-21 13:49:47 UTC; djaco
 Author: Daniel Jacob [cre, aut] (<https://orcid.org/0000-0002-6687-7169>)
 Repository: CRAN
-Date/Publication: 2018-10-11 16:10:06 UTC
+Date/Publication: 2019-03-21 14:13:24 UTC
