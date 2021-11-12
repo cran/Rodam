@@ -1,12 +1,12 @@
-b8dcb49a4e38ccb176b48edab17a56c8 *DESCRIPTION
+51384fa3c944549931c99f7d532eaa94 *DESCRIPTION
 879378c4e7cf506bb55ae9197a483016 *NAMESPACE
-cecf34ac8ac341c1707db3c60135696e *R/odamws.R
+233ab16ba1d8f6928cb45ebb8b2ffa25 *R/odamws.R
 65883a34305d826a626b7460f0d36bea *README.md
 40a2ee849d590ff1af0ee610bb44b3da *build/vignette.rds
 9d72345589789fca40ec65abc616177f *inst/CITATION
 0de32aa33f6b1d676a5fed4886c88c40 *inst/doc/Rodam.R
 bd710a0bc67a6a5f2fed700500ed3810 *inst/doc/Rodam.Rmd
-7d338fd188a01da21b706750eda7eebd *inst/doc/Rodam.html
+c5c82d13f4841bddb5076af7c3613f3d *inst/doc/Rodam.html
 6348e12b16f1eda05b0806c5a06cf7f3 *man/Rodam-package.Rd
-109e84521a2f0e71bf9737b7842dbaf1 *man/odamws.Rd
+8c6701825516af6c5c6ec6f8294b7651 *man/odamws.Rd
 bd710a0bc67a6a5f2fed700500ed3810 *vignettes/Rodam.Rmd
